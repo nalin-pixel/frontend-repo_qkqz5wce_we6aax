@@ -1,10 +1,29 @@
-import Spline from '@splinetool/react-spline'
+import { useEffect, useState } from 'react'
 
 export default function Hero() {
+  const [SplineComp, setSplineComp] = useState(null)
+  const [splineError, setSplineError] = useState(null)
+
+  useEffect(() => {
+    let mounted = true
+    import('@splinetool/react-spline')
+      .then((mod) => {
+        if (mounted) setSplineComp(() => mod.default)
+      })
+      .catch((err) => {
+        if (mounted) setSplineError(err?.message || 'Failed to load 3D scene')
+      })
+    return () => { mounted = false }
+  }, [])
+
   return (
     <section id="top" className="relative h-[90vh] w-full overflow-hidden">
       <div className="absolute inset-0">
-        <Spline scene="https://prod.spline.design/VJLoxp84lCdVfdZu/scene.splinecode" style={{ width: '100%', height: '100%' }} />
+        {SplineComp ? (
+          <SplineComp scene="https://prod.spline.design/VJLoxp84lCdVfdZu/scene.splinecode" style={{ width: '100%', height: '100%' }} />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 animate-pulse" />
+        )}
       </div>
 
       <div className="relative z-10 h-full flex items-center">
@@ -21,6 +40,9 @@ export default function Hero() {
               <a href="#services" className="px-5 py-3 rounded-xl bg-white text-slate-900 font-semibold shadow hover:shadow-cyan-500/20 transition">Explore Services</a>
               <a href="#blogs" className="px-5 py-3 rounded-xl bg-slate-900/70 border border-white/10 text-white font-semibold">Read Blogs</a>
             </div>
+            {splineError && (
+              <p className="mt-4 text-xs text-red-300/80">3D scene couldn't load right now. The rest of the page still works.</p>
+            )}
           </div>
         </div>
       </div>

@@ -28,7 +28,7 @@ export default function Contact() {
         <div className="grid md:grid-cols-2 gap-8 items-start">
           <div className="rounded-2xl bg-slate-900/60 border border-white/10 p-8">
             <h3 className="text-white text-2xl font-bold">Get in touch</h3>
-            <p className="text-slate-300/90 mt-2">Tell us about your requirement and well respond within 24 hours.</p>
+            <p className="text-slate-300/90 mt-2">Tell us about your requirement and we'll respond within 24 hours.</p>
             <form onSubmit={submit} className="mt-6 space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 <input required placeholder="Your name" className="w-full px-4 py-3 rounded-xl bg-slate-950/70 border border-white/10 text-white outline-none focus:border-cyan-400/60" value={form.name} onChange={(e)=>setForm({...form, name: e.target.value})} />
